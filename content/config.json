@@ -19,5 +19,12 @@
     "path": "content/collection2",
     "type": "image",
     "preview": "content/collection2/1.png"
+  },
+  {
+    "id": "stream_1768232944059",
+    "title": "IMAGE",
+    "path": "content/stream_1768232944059",
+    "type": "image",
+    "preview": "content/stream_1768232944059/1.png"
   }
 ]
