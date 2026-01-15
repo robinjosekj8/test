@@ -32,6 +32,55 @@
             <div id="auth-status" class="status-msg"></div>
         </section>
 
+        <section class="auth-section" id="settings-section">
+            <h2 style="margin-bottom: 20px;">Screen Protection & Schedule</h2>
+
+            <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                <h3 style="margin-top:0;">Active Hours (Screen On)</h3>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="active-enabled"> <label for="active-enabled">Enable Active
+                        Schedule</label>
+                </div>
+                <div class="form-group" style="display:flex; gap:10px;">
+                    <div>
+                        <label>Turn On At:</label>
+                        <input type="time" id="active-start">
+                    </div>
+                    <div>
+                        <label>Turn Off At:</label>
+                        <input type="time" id="active-end">
+                    </div>
+                </div>
+                <p style="font-size: 0.8rem; color: #aaa;">Outside these hours, screen will go black (Sleep Mode).</p>
+            </div>
+
+            <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px;">
+                <h3 style="margin-top:0;">Night Mode (Dim Screen)</h3>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="bright-enabled"> <label for="bright-enabled">Enable Night Dimming</label>
+                </div>
+                <div class="form-group" style="display:flex; gap:10px;">
+                    <div>
+                        <label>Dim Start:</label>
+                        <input type="time" id="bright-start">
+                    </div>
+                    <div>
+                        <label>Dim End:</label>
+                        <input type="time" id="bright-end">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Brightness Level During Night (%)</label>
+                    <input type="range" id="bright-level" min="0" max="100" value="50"
+                        oninput="document.getElementById('level-val').innerText = this.value + '%'">
+                    <span id="level-val">50%</span>
+                </div>
+            </div>
+
+            <button class="btn" style="margin-top: 15px;" onclick="saveSettings()">Save Screen Settings</button>
+            <div id="settings-status" class="status-msg"></div>
+        </section>
+
         <section id="content-section" style="display: none;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                 <h2>Managed Streams</h2>

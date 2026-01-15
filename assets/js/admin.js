@@ -1,9 +1,14 @@
 let config = [];
+let settings = {
+    activeHours: { enabled: false, start: "08:00", end: "22:00" },
+    brightness: { enabled: false, start: "20:00", end: "06:00", level: 50 }
+};
 let currentEditingId = null;
 
 document.addEventListener('DOMContentLoaded', () => {
     loadAuth();
     loadContent();
+    loadSettings();
 });
 
 function loadAuth() {
@@ -14,6 +19,9 @@ function loadAuth() {
 
     if (repo && token) {
         document.getElementById('content-section').style.display = 'block';
+        document.getElementById('settings-section').style.display = 'block';
+    } else {
+        document.getElementById('settings-section').style.display = 'none';
     }
 }
 
@@ -30,7 +38,9 @@ function saveAuth() {
     localStorage.setItem('gh_token', token);
     showStatus('auth-status', 'Configuration saved locally!', 'success');
     document.getElementById('content-section').style.display = 'block';
+    document.getElementById('settings-section').style.display = 'block';
     loadContent();
+    loadSettings();
 }
 
 function showStatus(id, msg, type) {
@@ -48,6 +58,57 @@ async function loadContent() {
     } catch (e) {
         console.error("Failed to load config.json", e);
         document.getElementById('content-list').innerHTML = '<p class="error">Failed to load content/config.json. Make sure it exists.</p>';
+    }
+}
+
+async function loadSettings() {
+    try {
+        const response = await fetch('content/settings.json');
+        if (response.ok) {
+            settings = await response.json();
+
+            // Populate UI
+            if (settings.activeHours) {
+                document.getElementById('active-enabled').checked = settings.activeHours.enabled;
+                document.getElementById('active-start').value = settings.activeHours.start;
+                document.getElementById('active-end').value = settings.activeHours.end;
+            }
+            if (settings.brightness) {
+                document.getElementById('bright-enabled').checked = settings.brightness.enabled;
+                document.getElementById('bright-start').value = settings.brightness.start;
+                document.getElementById('bright-end').value = settings.brightness.end;
+                document.getElementById('bright-level').value = settings.brightness.level;
+                document.getElementById('level-val').innerText = settings.brightness.level + '%';
+            }
+        }
+    } catch (e) {
+        console.log("No settings.json found, using defaults");
+    }
+}
+
+async function saveSettings() {
+    settings.activeHours = {
+        enabled: document.getElementById('active-enabled').checked,
+        start: document.getElementById('active-start').value || "08:00",
+        end: document.getElementById('active-end').value || "22:00"
+    };
+
+    settings.brightness = {
+        enabled: document.getElementById('bright-enabled').checked,
+        start: document.getElementById('bright-start').value || "20:00",
+        end: document.getElementById('bright-end').value || "08:00",
+        level: document.getElementById('bright-level').value
+    };
+
+    const statusEl = 'settings-status';
+    showStatus(statusEl, 'Saving settings to GitHub...', 'success');
+
+    try {
+        await updateFileInGithub('content/settings.json', JSON.stringify(settings, null, 2));
+        showStatus(statusEl, 'Settings saved successfully!', 'success');
+    } catch (e) {
+        console.error(e);
+        showStatus(statusEl, `Error: ${e.message}`, 'error');
     }
 }
 
