@@ -1,13 +1,13 @@
 {
-    "activeHours": {
-        "enabled": false,
-        "start": "08:00",
-        "end": "22:00"
-    },
-    "brightness": {
-        "enabled": false,
-        "start": "22:00",
-        "end": "08:00",
-        "level": 50
-    }
+  "activeHours": {
+    "enabled": false,
+    "start": "08:00",
+    "end": "22:00"
+  },
+  "brightness": {
+    "enabled": false,
+    "start": "00:00",
+    "end": "23:59",
+    "level": "50"
+  }
 }
