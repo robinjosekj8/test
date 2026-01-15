@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StreamHub Admin</title>
+    <link rel="stylesheet" href="assets/css/admin.css">
+</head>
+
+<body>
+    <div class="admin-container">
+        <header>
+            <h1>Admin Dashboard</h1>
+            <a href="index.html" class="btn btn-secondary">Back to Site</a>
+        </header>
+
+        <section class="auth-section">
+            <h2 style="margin-bottom: 20px;">GitHub Configuration</h2>
+            <div class="form-group">
+                <label for="github-repo">GitHub Repository (owner/repo)</label>
+                <input type="text" id="github-repo" placeholder="e.g. username/caffe-screen">
+            </div>
+            <div class="form-group">
+                <label for="github-token">Personal Access Token (PAT)</label>
+                <input type="password" id="github-token" placeholder="ghp_xxxxxxxxxxxx">
+                <p style="font-size: 0.8rem; color: #b2bec3; margin-top: 5px;">
+                    Required for saving changes. Token is stored only in your browser's localStorage.
+                </p>
+            </div>
+            <button class="btn" onclick="saveAuth()">Save Configuration</button>
+            <div id="auth-status" class="status-msg"></div>
+        </section>
+
+        <section id="content-section" style="display: none;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2>Managed Streams</h2>
+                <button class="btn" onclick="openAddModal()">+ Add New Stream</button>
+            </div>
+            <div id="content-list" class="content-list">
+                <!-- Loaded via JS -->
+                <p>Loading streams...</p>
+            </div>
+        </section>
+    </div>
+
+    <!-- Edit Modal -->
+    <div id="edit-modal" class="modal-overlay">
+        <div class="modal">
+            <h2 id="modal-title">Edit Stream</h2>
+            <div class="form-group">
+                <label>Title</label>
+                <input type="text" id="edit-title">
+            </div>
+            <div class="form-group">
+                <label>Stream URL (url.txt)</label>
+                <input type="text" id="edit-url" placeholder="YouTube URL or static link">
+            </div>
+            <div class="form-group" id="upload-group">
+                <label>Upload Media (replaces 1.mp4/1.png)</label>
+                <input type="file" id="edit-file" accept="image/*,video/*">
+            </div>
+            <div style="display: flex; gap: 10px; margin-top: 20px;">
+                <button class="btn" id="save-btn" onclick="saveStreamChanges()">Push Changes to GitHub</button>
+                <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+            </div>
+            <div id="modal-status" class="status-msg"></div>
+        </div>
+    </div>
+
+    <script src="assets/js/admin.js"></script>
+</body>
+
+</html>

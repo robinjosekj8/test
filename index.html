@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StreamHub</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+    <div class="tv-frame">
+        <div class="tv-screen">
+            <header class="header">
+                <!-- Placeholder for logo, user can add assets/images/logo.png -->
+                <h1 class="title">Caffe Screen</h1>
+                <a href="admin.html"
+                    style="color: rgba(255,255,255,0.3); text-decoration: none; font-size: 0.7rem; position: absolute; top: 10px; right: 10px;">Admin</a>
+            </header>
+
+            <div class="menu-list" id="menu-items">
+                <!-- Items will be loaded dynamically -->
+                <div style="text-align: center; padding: 20px;">Loading menu...</div>
+            </div>
+
+            <script>
+                fetch('content/config.json')
+                    .then(r => r.json())
+                    .then(data => {
+                        const container = document.getElementById('menu-items');
+                        container.innerHTML = '';
+                        data.forEach(item => {
+                            const card = document.createElement('a');
+                            card.href = `viewer.html?source=${item.path}&type=${item.type}`;
+                            card.className = 'menu-card';
+
+                            let previewHtml = '';
+                            if (item.type === 'video') {
+                                previewHtml = `<video src="${item.preview}" autoplay loop muted playsinline></video>`;
+                            } else {
+                                previewHtml = `<img src="${item.preview}" alt="Preview" onerror="this.src='${item.path}/1.jpg'">`;
+                            }
+
+                            card.innerHTML = `
+                                <div class="preview-box">
+                                    ${previewHtml}
+                                </div>
+                                <div class="card-title">${item.title}</div>
+                                <div class="card-desc">${item.path}</div>
+                            `;
+                            container.appendChild(card);
+                        });
+                    })
+                    .catch(e => {
+                        console.error("Error loading config:", e);
+                        document.getElementById('menu-items').innerHTML = '<p style="color:red; text-align:center;">Failed to load configuration.</p>';
+                    });
+            </script>
+        </div>
+    </div>
+</body>
+
+</html>
