@@ -1,0 +1,13 @@
+{
+  "activeHours": {
+    "enabled": true,
+    "start": "06:00",
+    "end": "16:00"
+  },
+  "brightness": {
+    "enabled": false,
+    "start": "22:00",
+    "end": "08:00",
+    "level": "50"
+  }
+}
