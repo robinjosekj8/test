@@ -3,8 +3,8 @@
     "id": "stream1",
     "title": "Video Stream",
     "path": "content/stream1",
-    "type": "video",
-    "preview": "content/stream1/1.mp4"
+    "type": "image",
+    "preview": "content/stream1/1.png"
   },
   {
     "id": "collection1",
